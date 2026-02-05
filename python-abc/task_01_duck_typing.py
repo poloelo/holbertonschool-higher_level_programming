@@ -46,27 +46,25 @@ class Circle(Shape):
         Args:
             radius (int): Radius of the circle
         """
-        self.radius = radius
+        self.radius = abs(radius)  # ✅ Ajout de la validation
 
     def area(self):
         """
         area calculation = pi * r^2
 
         Returns:
-            int: area of the circle
+            float: area of the circle  # ✅ Correction du type de retour
         """
-        result = math.pi * self.radius ** 2
-        return (result)
+        return math.pi * self.radius ** 2  # ✅ Retour direct
 
     def perimeter(self):
         """
         perimeter calculation = 2 * pi * r
 
         Returns:
-            int: perimeter
+            float: perimeter  # ✅ Correction du type de retour
         """
-        result = 2 * math.pi * self.radius
-        return (result)
+        return 2 * math.pi * self.radius  # ✅ Retour direct (formule correcte)
 
 
 class Rectangle(Shape):
@@ -87,16 +85,26 @@ class Rectangle(Shape):
             width (int): width
             height (int): height
         """
-        self.width = width
-        self.height = height
+        self.width = abs(width)  # ✅ Ajout de la validation
+        self.height = abs(height)  # ✅ Ajout de la validation
 
     def area(self):
-        """ Area calculation = W * H """
+        """
+        Area calculation = W * H
+        
+        Returns:
+            float: area of the rectangle  # ✅ Ajout du Returns
+        """
         return self.width * self.height
 
     def perimeter(self):
-        """ Perimeter calculation = 2*W + 2*H """
-        return (self.width * 2) + (self.height * 2)
+        """
+        Perimeter calculation = 2*W + 2*H
+        
+        Returns:
+            float: perimeter of the rectangle  # ✅ Ajout du Returns
+        """
+        return 2 * (self.width + self.height)  # ✅ Simplification
 
 
 def shape_info(item):
@@ -106,8 +114,5 @@ def shape_info(item):
     Args:
         item (obj): Instance of a shape
     """
-    result_area = item.area()
-    result_perimeter = item.perimeter()
-
-    print(f"Area: {result_area}")
-    print(f"Perimeter: {result_perimeter}")
+    print(f"Area: {item.area()}")  # ✅ Appel direct
+    print(f"Perimeter: {item.perimeter()}")  # ✅ Appel direct
