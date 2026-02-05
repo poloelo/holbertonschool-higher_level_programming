@@ -10,109 +10,106 @@ import math
 
 class Shape(ABC):
     """
-    Shape Abstract method to build geometric shape
-
-    Args:
-        ABC (class): Baseclass to build abstract method
+    Shape Abstract class to define geometric shapes interface
     """
+    
     @abstractmethod
     def area(self):
         """
-        area empty (set up the abstrat method)
+        Calculate the area of the shape
         """
         pass
 
     @abstractmethod
     def perimeter(self):
         """
-        perimeter empty (set up the abstrat method)
+        Calculate the perimeter of the shape
         """
         pass
 
 
 class Circle(Shape):
     """
-    Circle Class representing a circle shape
-        inherit from abstract method Shape
-
-    Args:
-        radius (int): The radius of the circle.
+    Circle class representing a circular shape
+    
+    Attributes:
+        radius: The radius of the circle (must be non-negative)
     """
 
     def __init__(self, radius):
         """
-        __init__ Build the object
-
+        Initialize a Circle instance
+        
         Args:
-            radius (int): Radius of the circle
+            radius: The radius of the circle
         """
-        self.radius = abs(radius)  # ✅ Ajout de la validation
+        self.radius = abs(radius)
 
     def area(self):
         """
-        area calculation = pi * r^2
-
+        Calculate the area of the circle
+        
         Returns:
-            float: area of the circle  # ✅ Correction du type de retour
+            float: The area (π * r²)
         """
-        return math.pi * self.radius ** 2  # ✅ Retour direct
+        return math.pi * self.radius ** 2
 
     def perimeter(self):
         """
-        perimeter calculation = 2 * pi * r
-
+        Calculate the perimeter of the circle
+        
         Returns:
-            float: perimeter  # ✅ Correction du type de retour
+            float: The perimeter (2 * π * r)
         """
-        return 2 * math.pi * self.radius  # ✅ Retour direct (formule correcte)
+        return 2 * math.pi * self.radius
 
 
 class Rectangle(Shape):
     """
-    Rectangle Class representing a rectangle shape
-        inherit from abstract method Shape
-
-    Args:
-        width (int): The width of the rectangle.
-        height (int): The height of the rectangle.
+    Rectangle class representing a rectangular shape
+    
+    Attributes:
+        width: The width of the rectangle
+        height: The height of the rectangle
     """
 
     def __init__(self, width, height):
         """
-        __init__ Constructor of the rectangle
-
+        Initialize a Rectangle instance
+        
         Args:
-            width (int): width
-            height (int): height
+            width: The width of the rectangle
+            height: The height of the rectangle
         """
-        self.width = abs(width)  # ✅ Ajout de la validation
-        self.height = abs(height)  # ✅ Ajout de la validation
+        self.width = abs(width)
+        self.height = abs(height)
 
     def area(self):
         """
-        Area calculation = W * H
+        Calculate the area of the rectangle
         
         Returns:
-            float: area of the rectangle  # ✅ Ajout du Returns
+            float: The area (width * height)
         """
         return self.width * self.height
 
     def perimeter(self):
         """
-        Perimeter calculation = 2*W + 2*H
+        Calculate the perimeter of the rectangle
         
         Returns:
-            float: perimeter of the rectangle  # ✅ Ajout du Returns
+            float: The perimeter (2 * (width + height))
         """
-        return 2 * (self.width + self.height)  # ✅ Simplification
+        return 2 * (self.width + self.height)
 
 
-def shape_info(item):
+def shape_info(shape):
     """
-    shape_info Retrieve information about a shape
-
+    Print the area and perimeter of a shape
+    
     Args:
-        item (obj): Instance of a shape
+        shape: An object with area() and perimeter() methods
     """
-    print(f"Area: {item.area()}")  # ✅ Appel direct
-    print(f"Perimeter: {item.perimeter()}")  # ✅ Appel direct
+    print(f"Area: {shape.area()}")
+    print(f"Perimeter: {shape.perimeter()}")
+    
