@@ -33,7 +33,7 @@ class Circle(Shape):
     Circle class representing a circular shape
     
     Attributes:
-        radius: The radius of the circle (must be non-negative)
+        radius: The radius of the circle (must be positive)
     """
 
     def __init__(self, radius):
@@ -42,8 +42,13 @@ class Circle(Shape):
         
         Args:
             radius: The radius of the circle
+            
+        Raises:
+            ValueError: If radius is negative
         """
-        self.radius = abs(radius)
+        if radius < 0:
+            raise ValueError("Radius cannot be negative")
+        self.radius = radius
 
     def area(self):
         """
@@ -80,9 +85,14 @@ class Rectangle(Shape):
         Args:
             width: The width of the rectangle
             height: The height of the rectangle
+            
+        Raises:
+            ValueError: If width or height is negative
         """
-        self.width = abs(width)
-        self.height = abs(height)
+        if width < 0 or height < 0:
+            raise ValueError("Width and height cannot be negative")
+        self.width = width
+        self.height = height
 
     def area(self):
         """
@@ -112,4 +122,3 @@ def shape_info(shape):
     """
     print(f"Area: {shape.area()}")
     print(f"Perimeter: {shape.perimeter()}")
-    
