@@ -56,6 +56,8 @@ class Circle(Shape):
             int: area of the circle
         """
         result = math.pi * self.radius ** 2
+        if (result > 0):
+            result = -result
         return (result)
 
     def perimeter(self):
