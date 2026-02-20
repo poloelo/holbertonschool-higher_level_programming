@@ -1,91 +1,71 @@
 #!/usr/bin/python3
-
 """
-Simple API using Python & Flask
+A simple Flask API to manage user data.
 """
-
 from flask import Flask, jsonify, request
 
-# Create a Flask application
 app = Flask(__name__)
 
-# User dictionary for tests :
+# In-memory storage for users
 users = {}
 
 
 @app.route("/")
 def home():
-    """
-    Home Default root URL
-
-    Will return a simple message
-    """
+    """Root endpoint returning a welcome message."""
     return "Welcome to the Flask API!"
 
 
 @app.route("/data")
 def get_data():
-    """
-    get_data
-
-    Get data from /data
-
-    Returns:
-       dict: A dictionary containing the usernames
-    """
-
+    """Returns a list of all stored usernames in JSON format."""
     return jsonify(list(users.keys()))
 
 
 @app.route("/status")
 def get_status():
-    """
-    get_status
-    Get status from /status
-
-    Returns:
-        str : OK
-    """
+    """Returns the operational status of the API."""
     return "OK"
 
 
 @app.route("/users/<username>")
 def get_user(username):
     """
-    get_user
-
-    Args:
-        username (str): username to get
-
-    Returns:
-        user data
+    Returns the full object for a specific username.
+    Returns 404 if the user is not found.
     """
-    if username in users:
-        return jsonify(users[username])
-    else:
-        return jsonify({"error": "User not found"}), 404
+    user = users.get(username)
+    if user:
+        return jsonify(user)
+    return jsonify({"error": "User not found"}), 404
 
 
 @app.route("/add_user", methods=["POST"])
 def add_user():
     """
-    add_user
-
-    add user with POST method
-
-    Returns:
-       user data successfully added
+    Handles POST requests to add a new user.
+    Validates JSON integrity, existence of username, and duplicates.
     """
-    retrieved_data = request.get_json()
+    # 1. Check if the request is valid JSON
+    data = request.get_json(silent=True)
+    if data is None:
+        return jsonify({"error": "Invalid JSON"}), 400
 
-    # Check if dictionnary contains a username key
-    if not retrieved_data or "username" not in retrieved_data:
+    # 2. Check if 'username' is provided
+    username = data.get("username")
+    if not username:
         return jsonify({"error": "Username is required"}), 400
 
-    username = retrieved_data["username"]
-    users[username] = retrieved_data
+    # 3. Check if 'username' already exists
+    if username in users:
+        return jsonify({"error": "Username already exists"}), 409
 
-    return jsonify({"message": "User added", "user": users[username]}), 201
+    # 4. Add user to the dictionary and return 201 Created
+    users[username] = data
+    return jsonify({
+        "message": "User added",
+        "user": data
+    }), 201
 
 
 if __name__ == "__main__":
